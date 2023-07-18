@@ -1,0 +1,35 @@
+version: '3'
+services:
+  auth:
+    build:
+      context: ./Auth
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI mongodb+srv://alaba:Famaguisse10@cluster0.vqb5sqn.mongodb.net/
+    networks:
+      - network
+
+  api-gateway:
+    build:
+      context: ./Api-gateway
+    depends_on:
+      - auth
+    ports:
+      - 3000:3000
+    environment:
+      - AUTH_URL=http://authentication:3000
+    networks:
+      - network
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data/db
+    networks:
+      - network
+
+networks:
+  network:
