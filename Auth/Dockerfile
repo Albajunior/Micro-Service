@@ -1,17 +1,19 @@
 FROM node:16
 
-WORKDIR ./
+RUN mkdir -p /auth
 
-COPY package.json package-lock.json ./
+WORKDIR /auth
+
+COPY package*.json /auth
 
 RUN npm install
 
 EXPOSE 8081
 
-COPY .. ./
+COPY . /auth
 
 # Définir la variable d'environnement pour l'URI de connexion MongoDB
 ENV MONGO_URI mongodb+srv://alaba:Famaguisse10@cluster0.vqb5sqn.mongodb.net/
 
-CMD ["node", "server.js"]
+CMD ["node", "npm"]
 
